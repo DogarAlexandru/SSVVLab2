@@ -47,7 +47,7 @@ public class AppTest
         
     }
     @org.junit.jupiter.api.Test
-    public void addingOfStudentTest()
+    public void addStudentTest()
     {
         StudentValidator studentValidator = new StudentValidator();
         TemaValidator temaValidator = new TemaValidator();
