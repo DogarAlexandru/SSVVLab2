@@ -1,5 +1,8 @@
 package sssv.lab2;
 
+import java.time.LocalDate;
+
+import domain.Nota;
 import domain.Student;
 import domain.Tema;
 import junit.framework.Test;
@@ -67,7 +70,7 @@ public class AppTest
         
     }
     @org.junit.jupiter.api.Test
-    public void addingOfTemaTest()
+    public void addTemaTest()
     {
         StudentValidator studentValidator = new StudentValidator();
         TemaValidator temaValidator = new TemaValidator();
@@ -84,6 +87,30 @@ public class AppTest
         Tema newTema=new Tema("123456", "dsadas", 123, 456);
         service.addTema(newTema);
         assertEquals(service.findTema("123456")!=null,true);
+        
+    }
+    @org.junit.jupiter.api.Test
+    public void addNotaTest()
+    {
+        StudentValidator studentValidator = new StudentValidator();
+        TemaValidator temaValidator = new TemaValidator();
+    	String filenameStudent = "fisiere/Studenti.xml";
+        String filenameTema = "fisiere/Teme.xml";
+        String filenameNota = "fisiere/Note.xml";
+
+        StudentXMLRepo studentXMLRepository = new StudentXMLRepo(filenameStudent);
+        TemaXMLRepo temaXMLRepository = new TemaXMLRepo(filenameTema);
+        NotaValidator notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
+        NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
+        Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
+        
+        Tema newTema=new Tema("123456", "dsadas", 123, 456);
+        service.addTema(newTema);
+        Student newStudent=new Student("123456", "newName", 9356, "newEmail");
+        service.addStudent(newStudent);
+        Nota newNota=new Nota("123", "123456", "123456", 10, LocalDate.now());
+        service.addNota(newNota, "nu");
+        assertEquals(service.findNota("123")!=null,true);
         
     }
 }
