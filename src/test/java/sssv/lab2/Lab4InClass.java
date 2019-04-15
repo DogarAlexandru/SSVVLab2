@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import domain.Nota;
 import domain.Student;
 import domain.Tema;
+import junit.framework.Assert;
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import repository.NotaXMLRepo;
 import repository.StudentXMLRepo;
@@ -16,42 +16,23 @@ import validation.NotaValidator;
 import validation.StudentValidator;
 import validation.TemaValidator;
 
+public class Lab4InClass{
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
+	public static Test suite() {
+		TestSuite suite = new TestSuite(Lab4InClass.class.getName());
+		//$JUnit-BEGIN$
+		suite.addTest(AppTest.suite());
+		//$JUnit-END$
+		return suite;
+	}
     @org.junit.jupiter.api.Test
     public void testApp()
     {
-        assertTrue( true );
+        Assert.assertTrue( true );
         
     }
     @org.junit.jupiter.api.Test
-    public void addStudentTestNothingNullOrEmpty()
+    public void testAddStudent()
     {
         StudentValidator studentValidator = new StudentValidator();
         TemaValidator temaValidator = new TemaValidator();
@@ -65,13 +46,13 @@ public class AppTest
         NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
         Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
         
-        Student newStudent=new Student("123", "alex", 1, "emailTest");
+        Student newStudent=new Student("1000", "newName", 9356, "newEmail");
         Student addedStudent=service.addStudent(newStudent);
-        assertEquals(addedStudent!=null,true);
-        
+        Assert.assertNotNull(addedStudent);
+
     }
     @org.junit.jupiter.api.Test
-    public void addStudentTestStringsAreNotStrings()
+    public void testAddTema()
     {
         StudentValidator studentValidator = new StudentValidator();
         TemaValidator temaValidator = new TemaValidator();
@@ -85,13 +66,13 @@ public class AppTest
         NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
         Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
         
-        //Student newStudent=new Student(123, 456, 0, 789);
-       // Student addedStudent=service.addStudent(newStudent);
-      //  assertEquals(addedStudent==null,true);
-        
+        Tema newTema=new Tema("1000", "dsadas", 123, 456);
+        Tema addedTema=service.addTema(newTema);
+        Assert.assertNotNull(addedTema);
+
     }
     @org.junit.jupiter.api.Test
-    public void addNotaTest()
+    public void testAddNota()
     {
         StudentValidator studentValidator = new StudentValidator();
         TemaValidator temaValidator = new TemaValidator();
@@ -105,14 +86,33 @@ public class AppTest
         NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
         Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
         
-        Tema newTema=new Tema("123456", "dsadas", 123, 456);
-        service.addTema(newTema);
-        Student newStudent=new Student("123456", "newName", 9356, "newEmail");
-        service.addStudent(newStudent);
-        Nota newNota=new Nota("123", "123456", "123456", 10, LocalDate.now());
-        service.addNota(newNota, "nu");
-        assertEquals(service.findNota("123")!=null,true);
-        
+        Nota newNota=new Nota("123", "1000", "1000", 10, LocalDate.now());
+        Double addedNota=service.addNota(newNota, "nu");
+        Assert.assertNotNull(addedNota);
     }
-    
+    @org.junit.jupiter.api.Test
+    public void testBigBang()
+    {
+        StudentValidator studentValidator = new StudentValidator();
+        TemaValidator temaValidator = new TemaValidator();
+    	String filenameStudent = "fisiere/Studenti.xml";
+        String filenameTema = "fisiere/Teme.xml";
+        String filenameNota = "fisiere/Note.xml";
+
+        StudentXMLRepo studentXMLRepository = new StudentXMLRepo(filenameStudent);
+        TemaXMLRepo temaXMLRepository = new TemaXMLRepo(filenameTema);
+        NotaValidator notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
+        NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
+        Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
+        
+        Tema newTema=new Tema("1001", "dsadas", 123, 456);
+        Tema addedTema=service.addTema(newTema);
+        Assert.assertNotNull(addedTema);
+        Student newStudent=new Student("1001", "newName", 9356, "newEmail");
+        Student addedStudent=service.addStudent(newStudent);
+        Assert.assertNotNull(addedStudent);
+        Nota newNota=new Nota("123", "1001", "1001", 10, LocalDate.now());
+        Double addedNota=service.addNota(newNota, "nu");
+        Assert.assertNotNull(addedNota);
+    }
 }
